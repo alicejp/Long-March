@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Key1
+  - Key2
+  - Key3
+  - Essential1
+  - Book
+  - Seed
+  - Coconut
+  - Coin
+  - General
+  - Gold
+  - Glisten
+  - Health1
+  - Health2
+  - Health3
+  - HealthText
+  - ZombieLand
+  - Formosa
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Background
+  - Foreground
+  - Hazards
+  - Player
+  - Touchable
+  - Ocean
+  - Boat
+  - StartFlag
+  - Key
+  - TreasureBoxes
+  - Forest
+  - Zombie
+  - Projectile
+  - General
+  - Book
+  - Coconut
+  - Seed
+  - Tunnel
+  - Formosa
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3844476923
+    locked: 0
+  - name: Forest
+    uniqueID: 2675178029
+    locked: 0
+  - name: Hazards
+    uniqueID: 778004091
+    locked: 0
+  - name: Ocean
+    uniqueID: 67605397
+    locked: 0
+  - name: Foreground
+    uniqueID: 3475293239
+    locked: 0
+  - name: Formosa
+    uniqueID: 1018764425
+    locked: 0
+  - name: Touchable
+    uniqueID: 3482466645
+    locked: 0
+  - name: Boat
+    uniqueID: 103044081
+    locked: 0
+  - name: StartFlag
+    uniqueID: 422550081
+    locked: 0
+  - name: TreasureBoxes
+    uniqueID: 1752963609
+    locked: 0
+  - name: Key
+    uniqueID: 3416893011
+    locked: 0
+  - name: Player
+    uniqueID: 2029775279
+    locked: 0
+  - name: Zombie
+    uniqueID: 717040243
+    locked: 0
+  - name: Projectile
+    uniqueID: 3555806687
+    locked: 0
+  - name: General
+    uniqueID: 1853214071
+    locked: 0
+  - name: Book
+    uniqueID: 3895085599
+    locked: 0
+  - name: Coconut
+    uniqueID: 1564513771
+    locked: 0
+  - name: Seed
+    uniqueID: 3140891601
+    locked: 0
+  - name: Tunnel
+    uniqueID: 420763111
+    locked: 0
