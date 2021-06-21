@@ -14,6 +14,6 @@ public class InfoDisplay : MonoBehaviour
 
     private void ShowInfoLabel()
     {
-        FindObjectOfType<GameSession>().ShowInfoLabel();
+        FindObjectOfType<LevelController>().ShowInfoLabel(tag.ToString());
     }
 }

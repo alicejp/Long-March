@@ -12,7 +12,6 @@ public class ButttonDisplay : MonoBehaviour
     }
     private void CloseOnClick()
     {
-        Debug.Log("Button Clicked");
         gameObject.transform.parent.gameObject.SetActive(false);
     }
 }

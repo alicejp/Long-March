@@ -6,12 +6,13 @@ public class Quiz : MonoBehaviour
 {
     [SerializeField] float waitForDismissTime = 2f;
     [SerializeField] GameObject wrongLabel;
-    [SerializeField] GameObject generalLabel;
     // Start is called before the first frame update
     void Start()
     {
-        wrongLabel.SetActive(false);
-        generalLabel.SetActive(false);
+        if (wrongLabel)
+        {
+            wrongLabel.SetActive(false);
+        }
         GetKeyboardInput();
     }
 
@@ -25,19 +26,17 @@ public class Quiz : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Alpha3))
         {
-            StartCoroutine(UnlockGeneral());
-        }else if ((Input.GetKey(KeyCode.Alpha1)) || (Input.GetKey(KeyCode.Alpha2)))
+            UnlockGeneral();
+        }
+        else if ((Input.GetKey(KeyCode.Alpha1)) || (Input.GetKey(KeyCode.Alpha2)))
         {
             StartCoroutine(ShowWrongMessage());
         }
     }
 
-    private IEnumerator UnlockGeneral()
+    private void UnlockGeneral()
     {
-        generalLabel.SetActive(true);
-        yield return new WaitForSeconds(waitForDismissTime);
-        generalLabel.SetActive(false);
-        FindObjectOfType<GameSession>().UnlockGeneral();
+        FindObjectOfType<GameSession>().GotTheEssential(TagName.General);
         gameObject.SetActive(false);
     }
 

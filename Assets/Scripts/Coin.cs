@@ -21,7 +21,7 @@ public class Coin : MonoBehaviour
 
         PlaySFX();
         PlayVFX();
-        FindObjectOfType<GameSession>().GainMoney(coinValue);
+        FindObjectOfType<MoneyDisplay>().GainMoney(coinValue);
         Destroy(gameObject);
     }
 

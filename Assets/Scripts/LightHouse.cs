@@ -38,6 +38,7 @@ public class LightHouse : MonoBehaviour
     private void MoveWithTheBoat()
     {
         FindObjectOfType<Player>().MoveAutomatically(new Vector2(1f, 0f));
+        FindObjectOfType<Boat>().transform.position = FindObjectOfType<Player>().transform.position;
         FindObjectOfType<Boat>().Move(new Vector2(1f, 0f));
     }
 }

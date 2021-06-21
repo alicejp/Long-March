@@ -20,7 +20,7 @@ public class StartFlag : MonoBehaviour
 
             if (!FindObjectOfType<GameSession>().HasEveryThingToWin())
             {
-                FindObjectOfType<GameSession>().ShowInfoLabel();
+                FindObjectOfType<LevelController>().ShowInfoLabel();
             }
         }
         else

@@ -21,6 +21,9 @@ TagManager:
   - HealthText
   - ZombieLand
   - Formosa
+  - Hit
+  - Map
+  - Hint
   layers:
   - Default
   - TransparentFX
@@ -91,9 +94,6 @@ TagManager:
   - name: Key
     uniqueID: 3416893011
     locked: 0
-  - name: Player
-    uniqueID: 2029775279
-    locked: 0
   - name: Zombie
     uniqueID: 717040243
     locked: 0
@@ -114,4 +114,7 @@ TagManager:
     locked: 0
   - name: Tunnel
     uniqueID: 420763111
+    locked: 0
+  - name: Player
+    uniqueID: 2029775279
     locked: 0

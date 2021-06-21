@@ -12,17 +12,11 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] float projectileSpeed = 100f;
     [SerializeField] float projectileFiringPeriod = 1f;
+    [SerializeField] bool ableToFire = true;
 
-    [SerializeField] float moveSpeed = 10f;
-    [SerializeField] float jumpSpeed = 10f;
+    [SerializeField] float moveSpeed = 7f;
 
     Coroutine coroutine;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -117,11 +111,11 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        if (HorizontalInput != 0f)
+        if (Mathf.Abs(HorizontalInput) > Mathf.Epsilon)
         {
             MovePlayerHorizontally();
         }
-        else if (VerticalInput != 0f)
+        else if (Mathf.Abs(VerticalInput) > Mathf.Epsilon)
         {
             MovePlayerVertically(); 
         }
@@ -146,6 +140,8 @@ public class Player : MonoBehaviour
 
     private void FireByButton()
     {
+        if (!ableToFire) return;
+
         if (Fire)
         {
             coroutine = StartCoroutine(FireBubble());
@@ -177,7 +173,15 @@ public class Player : MonoBehaviour
 
         GetComponent<Animator>().SetBool("IsShooting", true);
         GameObject icePrefab = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
-        icePrefab.GetComponent<Ice>().SetSpeed(new Vector2(projectileSpeed * Time.deltaTime, 0), Mathf.Sign(VelocityX));
+        
+        if (VerticalInput != 0f)
+        {
+            icePrefab.GetComponent<Ice>().SetSpeed(new Vector2(0, projectileSpeed * Time.deltaTime), Mathf.Sign(VelocityY));
+        }
+        else
+        {
+            icePrefab.GetComponent<Ice>().SetSpeed(new Vector2(projectileSpeed * Time.deltaTime, 0), Mathf.Sign(VelocityX));
+        }
     }
 
     private void MovePlayerHorizontally()
