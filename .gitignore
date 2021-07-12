@@ -35,3 +35,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Web Build/WebGL-v1.zip
+Web Build/WebGL.zip
