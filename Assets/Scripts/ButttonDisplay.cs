@@ -13,5 +13,6 @@ public class ButttonDisplay : MonoBehaviour
     private void CloseOnClick()
     {
         gameObject.transform.parent.gameObject.SetActive(false);
+        FindObjectOfType<GameSession>().IsGamePaused = false;
     }
 }

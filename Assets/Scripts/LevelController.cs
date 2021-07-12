@@ -42,17 +42,17 @@ public class LevelController : MonoBehaviour
 
     public void ShowInfoLabel(string tagName = "Hint")
     {
-        if (tagName == "Map")
+        if (tagName == "Map" && mapLabel)
         {
-            if (mapLabel)
-            {
-                mapLabel.SetActive(true);
-            }
-        }else
+           mapLabel.SetActive(true);
+           FindObjectOfType<GameSession>().IsGamePaused = true;
+        }
+        else
         {
             if (infoLabel)
             {
                 infoLabel.SetActive(true);
+                FindObjectOfType<GameSession>().IsGamePaused = true;
             }
         }
     }

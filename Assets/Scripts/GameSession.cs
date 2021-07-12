@@ -8,6 +8,7 @@ public class GameSession : MonoBehaviour
 {
     [SerializeField] bool gamePause = false;
     [SerializeField] bool lightHouseSwitchIsOn = false;
+    [SerializeField] bool touchedTheBoat = false;
 
     [SerializeField] bool hasGeneral = false;
     [SerializeField] bool hasCoconut = false;
@@ -33,14 +34,55 @@ public class GameSession : MonoBehaviour
     private void Update()
     {
         WinDealer();
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            StartCoroutine(YouLose());
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            WinDealer(true);
+        }
+
+        //Has everything but the player is not in the tunnel
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            hasSeed = hasCoconut = hasBook = hasEnoughCoin = hasGeneral = true;
+        }
+
+        // Pause the game
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PauseTheGame();
+        }
     }
 
-    private void WinDealer()
+    public void PauseTheGame()
     {
-        if (HasEveryThingToWin())
+        if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    private void WinDealer(bool setTrueFordebugUsed = false)
+    {
+        if (setTrueFordebugUsed)
         {
             FindObjectOfType<LevelController>().ShowWinLabel();
-            ResetEverything();
+            IsGamePaused = true;
+            return;
+        }
+
+        if (HasEveryThingToWin() && FindObjectOfType<LevelLoader>().IsPlayerInTheTunnel())
+        {
+            IsGamePaused = true;
+            FindObjectOfType<LevelController>().ShowWinLabel();
         }
     }
 
@@ -51,11 +93,14 @@ public class GameSession : MonoBehaviour
         return (hasEssentials && hasGeneral && reachFormosa);
     }
 
-    public void YouLose()
+    public IEnumerator YouLose()
     {
         //TODO:VFX
+        Time.timeScale = 0.2f;
+        yield return new WaitForSecondsRealtime(2f);
         FindObjectOfType<LevelController>().ShowLoseLabel();
-        ResetEverything();
+        Time.timeScale = 1f;
+        IsGamePaused = true;
     }
 
     public bool ReachFormosa
@@ -81,6 +126,19 @@ public class GameSession : MonoBehaviour
         get
         {
             return lightHouseSwitchIsOn;
+        }
+    }
+
+    public bool ShouldMoveToZLightHouse
+    {
+        set
+        {
+            touchedTheBoat = value;
+        }
+
+        get
+        {
+            return touchedTheBoat;
         }
     }
 

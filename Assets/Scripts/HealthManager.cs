@@ -23,7 +23,7 @@ public class HealthManager : MonoBehaviour
     {
         if (currentPoint <= minHealthPoint)
         {
-            FindObjectOfType<GameSession>().YouLose();
+            StartCoroutine(FindObjectOfType<GameSession>().YouLose());
         }
     }
 

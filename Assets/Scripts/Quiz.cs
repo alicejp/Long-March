@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Quiz : MonoBehaviour
 {
-    [SerializeField] float waitForDismissTime = 2f;
     [SerializeField] GameObject wrongLabel;
     // Start is called before the first frame update
     void Start()
@@ -30,7 +29,7 @@ public class Quiz : MonoBehaviour
         }
         else if ((Input.GetKey(KeyCode.Alpha1)) || (Input.GetKey(KeyCode.Alpha2)))
         {
-            StartCoroutine(ShowWrongMessage());
+            ShowWrongMessage();
         }
     }
 
@@ -40,11 +39,9 @@ public class Quiz : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private IEnumerator ShowWrongMessage()
+    private void ShowWrongMessage()
     {
         wrongLabel.SetActive(true);
-        yield return new WaitForSeconds(waitForDismissTime);
-        wrongLabel.SetActive(false);
         gameObject.SetActive(false);
     }
 }

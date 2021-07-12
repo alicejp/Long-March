@@ -21,24 +21,17 @@ public class LightHouse : MonoBehaviour
         var player = collision.gameObject.GetComponent<Player>();
         if (player)
         {
-            if (tag == "ZombieLand")
+            if (tag == "ZombieLand") // The LightHouseSwitch on the ZombieLand
             {
-                FindObjectOfType<Ocean>().SetCollider2DEnable(false);
                 FindObjectOfType<GameSession>().LightHouseSwitchIsOn = true;
-                MoveWithTheBoat();
             }
-            else if (tag == "Formosa")
+            else if (tag == "Formosa")// The LightHouseSwitch on the Formosa
             {
                 FindObjectOfType<Ocean>().SetCollider2DEnable(true);
                 FindObjectOfType<GameSession>().LightHouseSwitchIsOn = false;
+                FindObjectOfType<Player>().SwitchSprite(false);
             }
         }
     }
-
-    private void MoveWithTheBoat()
-    {
-        FindObjectOfType<Player>().MoveAutomatically(new Vector2(1f, 0f));
-        FindObjectOfType<Boat>().transform.position = FindObjectOfType<Player>().transform.position;
-        FindObjectOfType<Boat>().Move(new Vector2(1f, 0f));
-    }
+    
 }

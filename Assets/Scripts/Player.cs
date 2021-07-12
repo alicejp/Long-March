@@ -14,28 +14,17 @@ public class Player : MonoBehaviour
     [SerializeField] float projectileFiringPeriod = 1f;
     [SerializeField] bool ableToFire = true;
 
+    [Header("Speed")]
     [SerializeField] float moveSpeed = 7f;
+    [SerializeField] float maxDistanceDelta = 10f;
+    [SerializeField] Vector2 deathKick = new Vector2(0, 25f);
+
+    [Header("Particles")]
+    [SerializeField] ParticleSystem crashParticles;
+
+    private bool moveAutomatically = false;
 
     Coroutine coroutine;
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (FindObjectOfType<GameSession>().IsGamePaused)
-        {
-            return;
-        }
-
-        if (FindObjectOfType<GameSession>().LightHouseSwitchIsOn)
-        {
-            return;
-        }
-
-        FireByButton();
-        Move();
-        GetEssentials();
-        Die();
-    }
 
     private float VelocityX
     {
@@ -44,7 +33,6 @@ public class Player : MonoBehaviour
             return GetComponent<Rigidbody2D>().velocity.x;
         }
     }
-
     private float VelocityY
     {
         get
@@ -109,8 +97,49 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (FindObjectOfType<GameSession>().IsGamePaused)
+        {
+            return;
+        }
+
+        if (LayerMaskManager.TouchedTheBoat && FindObjectOfType<GameSession>().ShouldMoveToZLightHouse == false)
+        {
+            FindObjectOfType<GameSession>().ShouldMoveToZLightHouse = true;
+            // If we touch the boat, then we hide the boat
+            FindObjectOfType<Boat>().gameObject.SetActive(false);
+            moveAutomatically = true;
+            return;
+        }
+
+        if (FindObjectOfType<GameSession>().ShouldMoveToZLightHouse)
+        {
+            MoveForwardToZombieLand();
+            return;
+        }
+
+        if (FindObjectOfType<GameSession>().LightHouseSwitchIsOn)
+        {
+            SwitchSprite(true);
+            MoveForwardToFormosa();
+            return;
+        }
+
+        FireByButton();
+        Move();
+        GetEssentials();
+        Die();
+    }
     private void Move()
     {
+
+        if (moveAutomatically)
+        {
+            return;
+        }
+
         if (Mathf.Abs(HorizontalInput) > Mathf.Epsilon)
         {
             MovePlayerHorizontally();
@@ -125,17 +154,64 @@ public class Player : MonoBehaviour
             FindObjectOfType<LevelLoader>().LoadTunnelScene();
         }
 
-        if (LayerMaskManager.TouchedTheBoat)
-        {
-            var velocity = GetComponent<Rigidbody2D>().velocity;            
-        }
-        
         UpdateAnimatorIsRunningState();
     }
 
-    public void MoveAutomatically(Vector2 velocity)
+    public void SwitchSprite(bool shouldBeShip)
     {
-        GetComponent<Rigidbody2D>().velocity = velocity;
+        moveAutomatically = shouldBeShip;
+        if (shouldBeShip)
+        {
+             //change sprite to boat
+            GetComponent<Animator>().SetBool("IsSailing", true);
+            GetComponent<Animator>().SetBool("IsRunning", false);
+            return;
+        }
+
+        GetComponent<Animator>().SetBool("IsSailing", false);
+        GetComponent<Animator>().SetBool("IsRunning", true);
+    }
+
+    public void MoveForwardToFormosa()
+    {
+        FindObjectOfType<Ocean>().SetCollider2DEnable(false);
+        
+        GameObject formosa = GameObject.FindGameObjectWithTag("Formosa");
+        if (formosa)
+        {
+            Debug.Log("Yes, found formosa : " + formosa.transform.position);
+            FindObjectOfType<Player>().MoveAutomatically(formosa.transform);
+        }
+    }
+
+    public void MoveForwardToZombieLand()
+    {
+        FindObjectOfType<Ocean>().SetCollider2DEnable(false);
+        GameObject zombieLand = GameObject.FindGameObjectWithTag("ZombieLand");
+        if (zombieLand)
+        {
+            Debug.Log("Yes, found zombieLand : " + zombieLand.transform.position);
+            FindObjectOfType<Player>().MoveAutomatically(zombieLand.transform);
+
+            if (transform.position == zombieLand.transform.position)
+            {
+                FindObjectOfType<GameSession>().ShouldMoveToZLightHouse = false;
+            }
+        }
+    }
+
+    public void MoveAutomatically(Transform target)
+    {
+        moveAutomatically = true;
+        MoveTowardToTheTarget(target);
+    }
+
+    private void MoveTowardToTheTarget(Transform target)
+    {
+        float step = maxDistanceDelta * Time.deltaTime;
+        var movingToward = Vector3.MoveTowards(transform.position, target.position, step);
+        transform.position = movingToward;
+        Debug.Log("MoveTowardToTheTargetd : " + movingToward);
     }
 
     private void FireByButton()
@@ -199,16 +275,23 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
+        //If the player touches 
         if (LayerMaskManager.TouchedTheHazradAndWater)
         {
-            if (LayerMaskManager.TouchedTheBoat)
+            if (moveAutomatically)
             {
                 //We are on the boat, so it is fine
             }
             else
             {
-                //TODO: death kick
-                FindObjectOfType<GameSession>().YouLose();
+                GetComponent<Animator>().SetTrigger("Dying");
+                GetComponent<Rigidbody2D>().velocity = deathKick;
+                if (crashParticles)
+                {
+                    crashParticles.Play();
+                }
+                
+                StartCoroutine(FindObjectOfType<GameSession>().YouLose());
             }            
         }
     }
@@ -230,10 +313,13 @@ public class Player : MonoBehaviour
             FindObjectOfType<GameSession>().GotTheEssential(TagName.Seed);
         }
     }
-
-
     private void UpdateAnimatorIsRunningState()
     {
+        if (moveAutomatically)
+        {
+            GetComponent<Animator>().SetBool("IsRunning", false);
+            return;
+        }
         bool hasHorizontalSpeed = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > Mathf.Epsilon; 
         GetComponent<Animator>().SetBool("IsRunning", hasHorizontalSpeed);
     }
@@ -241,7 +327,7 @@ public class Player : MonoBehaviour
     private void FacingTheRightSide(float horizontalInput)
     {
         float sign = Mathf.Sign(horizontalInput);
-        transform.localScale = new Vector2(sign, 1f);
+        transform.localScale = new Vector2(sign * 0.8f, 0.8f);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

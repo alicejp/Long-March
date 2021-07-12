@@ -5,19 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     public void Quit()
     {
         Application.Quit();
@@ -41,6 +28,12 @@ public class LevelLoader : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
+        FindObjectOfType<GameSession>().ResetEverything();
+    }
+
+    public bool IsPlayerInTheTunnel()
+    {
+        return IsTheLastScene;
     }
 
     public void LoadDumgeonScene()
