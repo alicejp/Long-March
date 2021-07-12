@@ -5,6 +5,7 @@ using UnityEngine;
 public class Quiz : MonoBehaviour
 {
     [SerializeField] GameObject wrongLabel;
+    [SerializeField] ParticleSystem congradsParticle;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +36,7 @@ public class Quiz : MonoBehaviour
 
     private void UnlockGeneral()
     {
+        congradsParticle.Play();
         FindObjectOfType<GameSession>().GotTheEssential(TagName.General);
         gameObject.SetActive(false);
     }

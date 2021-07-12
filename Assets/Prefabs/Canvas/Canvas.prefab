@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -68.68002, y: -521.89996}
+  m_AnchoredPosition: {x: -72.67999, y: -746.8999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1942179254
@@ -210,7 +210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28, y: -516}
+  m_AnchoredPosition: {x: -32, y: -741}
   m_SizeDelta: {x: 88.648026, y: 45.15744}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3008173486135995240
@@ -266,3 +266,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a53620d9844a9142a4f706a8ee0becd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentMoney: 100
+  minimumCoinRequirement: 500
