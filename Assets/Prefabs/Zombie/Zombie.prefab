@@ -203,3 +203,6 @@ MonoBehaviour:
   projectileVFX: {fileID: 9094281417433777607, guid: a01e30aaac56a9e47bc3879f7935b499,
     type: 3}
   durationOfExplosion: 1
+  hitPoint: 20
+  zombieFootstep: {fileID: 2266214904951815833, guid: b82b73e27b1fc7b4885542284943f84d,
+    type: 3}

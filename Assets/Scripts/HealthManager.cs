@@ -13,19 +13,7 @@ public class HealthManager : MonoBehaviour
         UpdateUI(currentPoint);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        HealthDealer();
-    }
-
-    private void HealthDealer()
-    {
-        if (currentPoint <= minHealthPoint)
-        {
-            StartCoroutine(FindObjectOfType<GameSession>().YouLose());
-        }
-    }
+    
 
     public int GetCurrentHealthPoint()
     {
@@ -34,9 +22,19 @@ public class HealthManager : MonoBehaviour
 
     public void ReduceHealthPoint(int damage)
     {
-        currentPoint -= damage;
-        HealthDealer();
-        UpdateUI(currentPoint);
+        if (currentPoint > minHealthPoint) {
+            currentPoint -= damage;
+            HealthDealer();
+            UpdateUI(currentPoint);
+        }
+    }
+
+    private void HealthDealer()
+    {
+        if (currentPoint <= minHealthPoint)
+        {
+            StartCoroutine(FindObjectOfType<GameSession>().YouLose());
+        }
     }
 
     public void UpdateUI(int currentPoint)

@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    [SerializeField] float maxDistanceDelta = 10f;
-    [SerializeField] float waitTime = 30f;
-    [SerializeField] bool isHit = false;
-    [SerializeField] int maximumHit = 3;
-    [SerializeField] int currentHit = 0;
-    [SerializeField] GameObject projectileVFX;
-    [SerializeField] float durationOfExplosion = 1f;
-    [SerializeField] int hitPoint = 20;
+    public float maxDistanceDelta = 10f;
+    public float waitTime = 30f;
+    public bool isHit = false;
+    public int maximumHit = 3;
+    public int currentHit = 0;
+    public GameObject projectileVFX;
+    public float durationOfExplosion = 1f;
+    public int hitPoint = 20;
+
+    public AudioSource zombieFootstep;
     private Transform PlayerTransform
     {
         get
@@ -64,6 +66,9 @@ public class Zombie : MonoBehaviour
         float step = maxDistanceDelta * Time.deltaTime;
         var movingToward = Vector3.MoveTowards(transform.position, player.position, step);
         transform.position = movingToward;
+
+        float distance = Vector3.Distance(player.position, movingToward);
+        FindObjectOfType<SoundEffects>().ZombieIsComing(distance);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

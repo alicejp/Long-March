@@ -169,12 +169,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamePause: 0
   lightHouseSwitchIsOn: 0
+  touchedTheBoat: 0
   hasGeneral: 0
   hasCoconut: 0
   hasBook: 0
   hasSeed: 0
   hasEnoughCoin: 0
   reachFormosa: 0
+  dieSound: {fileID: 8300000, guid: 0d314af22bdaa774496215b6d92e1a29, type: 3}
+  dieSoundVolume: 0.75
 --- !u!1 &7953642832709131196
 GameObject:
   m_ObjectHideFlags: 0

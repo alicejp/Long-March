@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinValue: 100
-  pickUpSFX: {fileID: 8300000, guid: aed3688997de6394c910da4e136c9bd8, type: 3}
+  pickUpSFX: {fileID: 8300000, guid: 4e8d75da7caf8774c860939ee2775642, type: 3}
   pickupVFX: {fileID: 9094281417433777607, guid: 4f2fda13f4fcf354d84207702fd3ff79,
     type: 3}
   soundVolumn: 0.25

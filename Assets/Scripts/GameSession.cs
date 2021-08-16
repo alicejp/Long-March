@@ -16,7 +16,6 @@ public class GameSession : MonoBehaviour
     [SerializeField] bool hasSeed = false;
     [SerializeField] bool hasEnoughCoin = false;
     [SerializeField] bool reachFormosa = false;
-
     private void Awake()
     {
         //singleton
@@ -95,12 +94,13 @@ public class GameSession : MonoBehaviour
 
     public IEnumerator YouLose()
     {
-        //TODO:VFX
         Time.timeScale = 0.2f;
         yield return new WaitForSecondsRealtime(2f);
         FindObjectOfType<LevelController>().ShowLoseLabel();
+        
         Time.timeScale = 1f;
         IsGamePaused = true;
+        FindObjectOfType<SoundEffects>().GameDeathMusic();
     }
 
     public bool ReachFormosa
