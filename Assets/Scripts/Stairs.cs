@@ -9,13 +9,18 @@ public class Stairs : MonoBehaviour
         var player = collision.gameObject.GetComponent<Player>();
         if (player)
         {
-            //Leave the tunnel, we need to reset the reach formosa to false;
-            if (FindObjectOfType<LevelLoader>().IsTheLastScene)
-            {
-                FindObjectOfType<GameSession>().ReachFormosa = false;
-            }
-
-            FindObjectOfType<LevelLoader>().LoadGameScene();
+            GoToGameScene();
         }
+    }
+
+    private static void GoToGameScene()
+    {
+        //Leave the tunnel, we need to reset the reach formosa to false;
+        if (FindObjectOfType<LevelLoader>().IsTheLastScene)
+        {
+            FindObjectOfType<GameSession>().ReachFormosa = false;
+        }
+
+        FindObjectOfType<LevelLoader>().LoadGameScene();
     }
 }

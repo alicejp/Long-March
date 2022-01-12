@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//LayerMask wrapper
 public class PlayerLayerMaskManager : MonoBehaviour
 {
     public bool TouchedTheBoat

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Show How to play label when the botton on click.
 public class HowButton : MonoBehaviour
 {
     [SerializeField] GameObject howLabel;
-    // Start is called before the first frame update
+
+
     void Start()
     {
         Button btn = gameObject.GetComponent<Button>();

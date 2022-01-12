@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(zombieSpawner.AverageDistanceWithPlayer);
+        //Debug.Log(zombieSpawner.AverageDistanceWithPlayer);
 
         if (zombieSpawner.AverageDistanceWithPlayer < dangerRange)
         {

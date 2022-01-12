@@ -107,7 +107,6 @@ public class Player : MonoBehaviour
         gameSession = FindObjectOfType<GameSession>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameSession.IsGamePaused)
@@ -144,7 +143,6 @@ public class Player : MonoBehaviour
     }
     private void Move()
     {
-
         if (moveAutomatically)
         {
             return;

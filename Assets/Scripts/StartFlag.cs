@@ -6,6 +6,7 @@ public class StartFlag : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // If it is player who collides with the flag.
         var player = collision.gameObject.GetComponent<Player>();
 
         if (!player)
@@ -27,6 +28,6 @@ public class StartFlag : MonoBehaviour
         {
             // It is in the Dumgeon
             FindObjectOfType<LevelLoader>().LoadGameScene();
-        }   
+        } 
     }
 }
