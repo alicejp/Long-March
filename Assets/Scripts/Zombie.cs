@@ -14,12 +14,27 @@ public class Zombie : MonoBehaviour
     public float durationOfExplosion = 1f;
     public int hitPoint = 20;
 
-    public AudioSource zombieFootstep;
+    //Use it to tune the zombie's volume
+    public float distanceWithPlayer = 20f;
+
+    Player thePlayer;
+    GameSession gameSession;
+    Animator animator;
+    Collider2D myCollider2D;
+
+    private void Awake()
+    {
+        thePlayer = FindObjectOfType<Player>();
+        gameSession = FindObjectOfType<GameSession>();
+        animator = GetComponent<Animator>();
+        myCollider2D = GetComponent<Collider2D>();
+    }
+
     private Transform PlayerTransform
     {
         get
         {
-            return FindObjectOfType<Player>().transform;
+            return thePlayer.transform;
         }
     }
 
@@ -40,15 +55,14 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (FindObjectOfType<GameSession>().IsGamePaused)
+        if (gameSession.IsGamePaused)
         {
             return;
         }
 
-        if (FindObjectOfType<GameSession>().LightHouseSwitchIsOn)
+        if (gameSession.LightHouseSwitchIsOn)
         {
             return;
         }
@@ -67,8 +81,7 @@ public class Zombie : MonoBehaviour
         var movingToward = Vector3.MoveTowards(transform.position, player.position, step);
         transform.position = movingToward;
 
-        float distance = Vector3.Distance(player.position, movingToward);
-        FindObjectOfType<SoundEffects>().ZombieIsComing(distance);
+        distanceWithPlayer = Vector3.Distance(player.position, movingToward);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -86,6 +99,7 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    // Shoot projectile
     private void PlayProjectileVFX()
     {
         if (projectileVFX)
@@ -95,16 +109,19 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    //Update Animator's shouldDuck variable
     private IEnumerator DuckFor30Secs()
     {
-        GetComponent<Animator>().SetBool("shouldDuck", true);
+        animator.SetBool("shouldDuck", true);
         yield return new WaitForSeconds(waitTime);
-        GetComponent<Animator>().SetBool("shouldDuck", false);
+        animator.SetBool("shouldDuck", false);
         currentHit = 0;
     }
+
+    //Zombie should stop when reaching Hazards and Ocean
     private bool ShouldStop()
     {
         //Afraid of water
-        return GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Hazards", "Ocean"));
+        return myCollider2D.IsTouchingLayers(LayerMask.GetMask("Hazards", "Ocean"));
     }
 }
