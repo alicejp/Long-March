@@ -26,19 +26,20 @@ public class Player : MonoBehaviour
 
     Coroutine coroutine;
     GameSession gameSession;
+    Rigidbody2D myRigidbody2D;
 
     private float VelocityX
     {
         get
         {
-            return GetComponent<Rigidbody2D>().velocity.x;
+            return myRigidbody2D.velocity.x;
         }
     }
     private float VelocityY
     {
         get
         {
-            return GetComponent<Rigidbody2D>().velocity.y;
+            return myRigidbody2D.velocity.y;
         }
     }
 
@@ -100,6 +101,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        myRigidbody2D = GetComponent<Rigidbody2D>();
         gameSession = FindObjectOfType<GameSession>();
     }
 
@@ -268,14 +270,14 @@ public class Player : MonoBehaviour
 
     private void MovePlayerHorizontally()
     {
-        GetComponent<Rigidbody2D>().velocity = HorizontalSpeedByInput;
+        myRigidbody2D.velocity = HorizontalSpeedByInput;
         UpdateAnimatorIsRunningState();
         FacingTheRightSide(HorizontalInput);
     }
 
     private void MovePlayerVertically()
     {
-        GetComponent<Rigidbody2D>().velocity = VerticalSpeedByInput;
+        myRigidbody2D.velocity = VerticalSpeedByInput;
         UpdateAnimatorIsRunningState();
     }
 
@@ -291,7 +293,7 @@ public class Player : MonoBehaviour
             else
             {
                 GetComponent<Animator>().SetTrigger("Dying");
-                GetComponent<Rigidbody2D>().velocity = deathKick;
+                myRigidbody2D.velocity = deathKick;
                 if (crashParticles)
                 {
                     crashParticles.Play();
@@ -326,7 +328,7 @@ public class Player : MonoBehaviour
             GetComponent<Animator>().SetBool("IsRunning", false);
             return;
         }
-        bool hasHorizontalSpeed = Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > Mathf.Epsilon; 
+        bool hasHorizontalSpeed = Mathf.Abs(myRigidbody2D.velocity.x) > Mathf.Epsilon; 
         GetComponent<Animator>().SetBool("IsRunning", hasHorizontalSpeed);
     }
 
