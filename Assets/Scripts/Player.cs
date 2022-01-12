@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private bool moveAutomatically = false;
 
     Coroutine coroutine;
+    GameSession gameSession;
 
     private float VelocityX
     {
@@ -97,30 +98,35 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        gameSession = FindObjectOfType<GameSession>();
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (FindObjectOfType<GameSession>().IsGamePaused)
+        if (gameSession.IsGamePaused)
         {
             return;
         }
 
         if (LayerMaskManager.TouchedTheBoat && FindObjectOfType<GameSession>().ShouldMoveToZLightHouse == false)
         {
-            FindObjectOfType<GameSession>().ShouldMoveToZLightHouse = true;
+            gameSession.ShouldMoveToZLightHouse = true;
             // If we touch the boat, then we hide the boat
             FindObjectOfType<Boat>().gameObject.SetActive(false);
             moveAutomatically = true;
             return;
         }
 
-        if (FindObjectOfType<GameSession>().ShouldMoveToZLightHouse)
+        if (gameSession.ShouldMoveToZLightHouse)
         {
             MoveForwardToZombieLand();
             return;
         }
 
-        if (FindObjectOfType<GameSession>().LightHouseSwitchIsOn)
+        if (gameSession.LightHouseSwitchIsOn)
         {
             SwitchSprite(true);
             MoveForwardToFormosa();
@@ -195,7 +201,7 @@ public class Player : MonoBehaviour
 
             if (transform.position == zombieLand.transform.position)
             {
-                FindObjectOfType<GameSession>().ShouldMoveToZLightHouse = false;
+                gameSession.ShouldMoveToZLightHouse = false;
             }
         }
     }
@@ -291,7 +297,7 @@ public class Player : MonoBehaviour
                     crashParticles.Play();
                 }
                 
-                StartCoroutine(FindObjectOfType<GameSession>().YouLose());
+                StartCoroutine(gameSession.YouLose());
             }            
         }
     }
@@ -300,17 +306,17 @@ public class Player : MonoBehaviour
     {
         if (LayerMaskManager.TouchedTheBook)
         {
-            FindObjectOfType<GameSession>().GotTheEssential(TagName.Book);
+            gameSession.GotTheEssential(TagName.Book);
         }
 
         if (LayerMaskManager.TouchedTheCoconut)
         {
-            FindObjectOfType<GameSession>().GotTheEssential(TagName.Coconut);
+            gameSession.GotTheEssential(TagName.Coconut);
         }
 
         if (LayerMaskManager.TouchedTheSeed)
         {
-            FindObjectOfType<GameSession>().GotTheEssential(TagName.Seed);
+            gameSession.GotTheEssential(TagName.Seed);
         }
     }
     private void UpdateAnimatorIsRunningState()
