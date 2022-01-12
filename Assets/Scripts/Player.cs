@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     Coroutine coroutine;
     GameSession gameSession;
     Rigidbody2D myRigidbody2D;
+    Animator animator;
 
     private float VelocityX
     {
@@ -102,6 +103,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         myRigidbody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         gameSession = FindObjectOfType<GameSession>();
     }
 
@@ -113,7 +115,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if (LayerMaskManager.TouchedTheBoat && FindObjectOfType<GameSession>().ShouldMoveToZLightHouse == false)
+        if (LayerMaskManager.TouchedTheBoat && gameSession.ShouldMoveToZLightHouse == false)
         {
             gameSession.ShouldMoveToZLightHouse = true;
             // If we touch the boat, then we hide the boat
@@ -170,14 +172,14 @@ public class Player : MonoBehaviour
         moveAutomatically = shouldBeShip;
         if (shouldBeShip)
         {
-             //change sprite to boat
-            GetComponent<Animator>().SetBool("IsSailing", true);
-            GetComponent<Animator>().SetBool("IsRunning", false);
+            //change sprite to boat
+            animator.SetBool("IsSailing", true);
+            animator.SetBool("IsRunning", false);
             return;
         }
 
-        GetComponent<Animator>().SetBool("IsSailing", false);
-        GetComponent<Animator>().SetBool("IsRunning", true);
+        animator.SetBool("IsSailing", false);
+        animator.SetBool("IsRunning", true);
     }
 
     public void MoveForwardToFormosa()
@@ -233,7 +235,7 @@ public class Player : MonoBehaviour
 
         if(StopFire)
         {
-            GetComponent<Animator>().SetBool("IsShooting", false);
+            animator.SetBool("IsShooting", false);
             StopCoroutine(coroutine);
         }
     }
@@ -255,7 +257,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        GetComponent<Animator>().SetBool("IsShooting", true);
+        animator.SetBool("IsShooting", true);
         GameObject icePrefab = Instantiate(projectilePrefab, transform.position, Quaternion.identity) as GameObject;
         
         if (VerticalInput != 0f)
@@ -292,7 +294,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GetComponent<Animator>().SetTrigger("Dying");
+                animator.SetTrigger("Dying");
                 myRigidbody2D.velocity = deathKick;
                 if (crashParticles)
                 {
@@ -325,11 +327,11 @@ public class Player : MonoBehaviour
     {
         if (moveAutomatically)
         {
-            GetComponent<Animator>().SetBool("IsRunning", false);
+            animator.SetBool("IsRunning", false);
             return;
         }
-        bool hasHorizontalSpeed = Mathf.Abs(myRigidbody2D.velocity.x) > Mathf.Epsilon; 
-        GetComponent<Animator>().SetBool("IsRunning", hasHorizontalSpeed);
+        bool hasHorizontalSpeed = Mathf.Abs(myRigidbody2D.velocity.x) > Mathf.Epsilon;
+        animator.SetBool("IsRunning", hasHorizontalSpeed);
     }
 
     private void FacingTheRightSide(float horizontalInput)
